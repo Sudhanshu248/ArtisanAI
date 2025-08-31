@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import userRoutes from "./routes/user.routes.js";
+import chatbotRoutes from "./routes/chatBot.routes.js"
 
 const app = express();
 dotenv.config(); // Load environment variables
@@ -31,6 +32,7 @@ const connectDB = async () => {
 };
 
 app.use('/', userRoutes);
+app.use("/", chatbotRoutes);
 
 // Global error handler middleware
 app.use((err, req, res, next) => {

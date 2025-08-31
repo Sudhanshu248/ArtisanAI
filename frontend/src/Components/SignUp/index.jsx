@@ -1,146 +1,179 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
 export default function Signup() {
-    const navigate = useNavigate(); // React Router hook for navigation
+  const navigate = useNavigate();
 
-    // Function to navigate back to main webpage
-    const handleclick = () => {
-        window.location.href = "http://localhost:5173"; // Redirect to main webpage
+  // Navigate back to main webpage
+  const handleBack = () => {
+    window.location.href = "http://localhost:5173";
+  };
+
+  // Navigate to login page
+  const handleLoginRedirect = (e) => {
+    e.preventDefault();
+    navigate("/login");
+  };
+
+  // State variables
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // Handle signup
+  const handleSignUp = async () => {
+    if (!username || !email || !password) {
+      setError("Please fill all the fields.");
+      setSuccess("");
+      return;
     }
 
-    // Function to navigate to login page
-    const handleAction = () => {
-        navigate("/login");
+    try {
+      setLoading(true);
+      setError("");
+      setSuccess("");
+
+      const response = await axios.post(`http://localhost:8080/signup`, {
+        username,
+        email,
+        password,
+      }, {
+        headers: { 'Content-Type': 'application/json' },
+        timeout: 5000,
+      });
+
+      if (response.data && response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        setSuccess("Successfully Signed Up");
+        setError("");
+        navigate("/dashboard");
+      } else {
+        setError("Signup failed. Please try again.");
+        setSuccess("");
+      }
+    } catch (err) {
+      setError("Please fill all the details correctly.");
+      setSuccess("");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    // Local state variables to hold user input and feedback
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-700 via-pink-600 to-pink-400 flex flex-col items-center justify-center px-4 py-12">
+      {/* Back Button */}
+      <button
+        onClick={handleBack}
+        className="self-start mb-8 flex items-center space-x-2 text-white bg-purple-900 hover:bg-purple-800 px-4 py-2 rounded-full font-semibold transition-transform transform hover:scale-105"
+      >
+        <i className="fas fa-arrow-left"></i>
+        <span>Back</span>
+      </button>
 
-    // Function to handle the signup process
-    const handleSignUp = async () => {
-        try {
-            setLoading(true);     // Start loading state
-            setError("");         // Clear any previous errors
+      {/* Signup Card */}
+      <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-10">
+        <h2 className="text-3xl font-extrabold text-purple-700 mb-8 text-center">Create Your Account</h2>
 
-            // Send POST request to signup API
-            const response = await axios.post(`http://localhost:8080/signup`, {
-                username,
-                email,
-                password,
-            }, {
-                headers: { 'Content-Type': 'application/json' },
-                timeout: 5000 // Request times out after 5 seconds
-            });
+        {/* Success Message */}
+        {success && (
+          <div className="mb-4 p-3 rounded-md bg-green-100 text-green-800 font-semibold flex items-center space-x-2">
+            <i className="fas fa-check-circle"></i>
+            <span>{success}</span>
+          </div>
+        )}
 
-            // If signup is successful, store token and email in local storage
-            if (response.data && response.data.token) {
-                localStorage.setItem('token', response.data.token);
-                localStorage.setItem("userEmail", email);
-                setSuccess("SuccessFully Signed Up"); // Show success message
-                navigate("/dashboard"); // Redirect user to form page
-            }
+        {/* Error Message */}
+        {error && (
+          <div className="mb-4 p-3 rounded-md bg-red-100 text-red-700 font-semibold flex items-center space-x-2">
+            <i className="fas fa-exclamation-circle"></i>
+            <span>{error}</span>
+          </div>
+        )}
 
-        } catch (error) {
-            setError("Please fill all the details correctly."); // Show user-friendly error message
-        } finally {
-            setLoading(false); // Stop loading
-        }
-    }
+        {/* Username Input */}
+        <label htmlFor="username" className="block text-gray-700 font-semibold mb-1">
+          Username
+        </label>
+        <div className="flex items-center border border-gray-300 rounded-lg mb-6 focus-within:ring-2 focus-within:ring-purple-500">
+          <div className="px-3 text-purple-600">
+            <i className="fas fa-user"></i>
+          </div>
+          <input
+            type="text"
+            id="username"
+            placeholder="Enter your username"
+            className="w-full p-3 outline-none rounded-r-lg"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            disabled={loading}
+          />
+        </div>
 
-    return (
-        <>
-            {/* Background page container with semi-transparent overlay */}
-            <div className="page" style={{ backgroundColor: "rgba(0, 0, 0, 0.4)", height: "100vh" }}>
+        {/* Email Input */}
+        <label htmlFor="email" className="block text-gray-700 font-semibold mb-1">
+          Email
+        </label>
+        <div className="flex items-center border border-gray-300 rounded-lg mb-6 focus-within:ring-2 focus-within:ring-purple-500">
+          <div className="px-3 text-purple-600">
+            <i className="fas fa-envelope"></i>
+          </div>
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            className="w-full p-3 outline-none rounded-r-lg"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={loading}
+          />
+        </div>
 
-                {/* Back button */}
-                <button
-                    className="text-center m-4  px-5 mb-17 py-2 font-bold font-sm text-white rounded-md hover:scale-105 cursor-pointer"
-                    style={{ backgroundColor: "#023e8a" }}
-                    onClick={handleclick}
-                >
-                    <i className="fa-solid fa-arrow-left" style={{ color: "#fff" }}></i> &nbsp; Back
-                </button>
+        {/* Password Input */}
+        <label htmlFor="password" className="block text-gray-700 font-semibold mb-1">
+          Password
+        </label>
+        <div className="flex items-center border border-gray-300 rounded-lg mb-8 focus-within:ring-2 focus-within:ring-purple-500">
+          <div className="px-3 text-purple-600">
+            <i className="fas fa-lock"></i>
+          </div>
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            className="w-full p-3 outline-none rounded-r-lg"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={loading}
+          />
+        </div>
 
-                {/* Signup form box */}
-                <div className="box">
+        {/* Signup Button */}
+        <button
+          onClick={handleSignUp}
+          disabled={loading}
+          className={`w-full py-3 rounded-full font-semibold text-white transition-transform transform ${
+            loading ? 'bg-purple-400 cursor-not-allowed' : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:scale-105'
+          }`}
+        >
+          {loading ? 'Signing up...' : 'Sign up'}
+        </button>
 
-                    {/* Title button */}
-                    <button className="text-center m-4 w-30 p-3 px-0 font-bold font-sm rounded-md" style={{ border: "2px solid #023e8a" }}>
-                        Sign up
-                    </button>
-
-                    {/* Error and Success messages */}
-                    {error && <div className="text-red-600 font-mediud">{error}</div>}
-                    {success && <div className="text-green-600 font-mediud">{success}</div>}
-
-                    {/* Input Fields */}
-                    <div className="w-[90%]">
-
-                        {/* Username input */}
-                        <div className="username flex pt-5 pb-1" style={{ borderBottom: "2px solid rgba(0, 0, 0, 0.2)" }}>
-                            <img src="/image/signUp-user.png" alt="signUp-user" className='w-9 h-9 p-2' />
-                            <input
-                                type="text"
-                                id="username"
-                                placeholder='Enter your username'
-                                className='p-6 ml-1'
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
-                        </div>
-
-                        {/* Email input */}
-                        <div className="email flex pt-5 pb-1" style={{ borderBottom: "2px solid rgba(0, 0, 0, 0.2)" }}>
-                            <img src="/image/signUp-email.png" alt="signUp-email" className='w-9 h-9 p-2' />
-                            <input
-                                type="email"
-                                id="email"
-                                placeholder='Enter your email'
-                                className='p-6 ml-1'
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </div>
-
-                        {/* Password input */}
-                        <div className="password flex pt-5 pb-1" style={{ borderBottom: "2px solid rgba(0, 0, 0, 0.2)" }}>
-                            <img src="/image/signUp-password.png" alt="signUp-password" className='w-10 h-10 p-2' />
-                            <input
-                                type="password"
-                                id="password"
-                                placeholder='Enter your password'
-                                className='p-6 ml-1'
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </div>
-                    </div>
-
-                    {/* Sign Up Button and Login Link */}
-                    <div className="button w-full text-center items-center h-[30%] flex flex-col justify-between">
-                        {/* Submit button */}
-                        <button
-                            className="text-center m-4 w-[70%] px-5 py-2 font-bold font-sm text-white hover:scale-105 cursor-pointer"
-                            style={{ backgroundColor: "#023e8a", borderRadius: "45px" }}
-                            onClick={handleSignUp}
-                            disabled={loading}
-                        >
-                            Sign up
-                        </button>
-
-                        {/* Redirect to Login */}
-                        <div className="p-4 w-full text-center pb-0" style={{ borderTop: "2px solid rgba(0, 0, 0, 0.1)" }}>
-                            <p>
-                                Already have an account? &nbsp;
-                                <a href="" className='text-blue-900 font-bold' onClick={handleAction}>Login</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </>
-    );
+        {/* Login Redirect */}
+        <p className="mt-6 text-center text-gray-600">
+          Already have an account?{' '}
+          <a
+            href="#"
+            onClick={handleLoginRedirect}
+            className="text-purple-700 font-semibold hover:underline cursor-pointer"
+          >
+            Login
+          </a>
+        </p>
+      </div>
+    </div>
+  );
 }

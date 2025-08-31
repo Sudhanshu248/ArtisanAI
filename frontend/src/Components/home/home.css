@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+* {
+    font-family: 'Inter', sans-serif;
+}
+
+.gradient-bg {
+    background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+}
+
+.glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.create-btn {
+    background: linear-gradient(45deg, #8B5CF6, #EC4899);
+    transition: all 0.3s ease;
+}
+
+.create-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+}
+
+.platform-badge {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    padding: 8px 16px;
+    margin: 4px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.creation-flow {
+    background: linear-gradient(45deg, #F9FAFB, #F3F4F6);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 16px 0;
+}
