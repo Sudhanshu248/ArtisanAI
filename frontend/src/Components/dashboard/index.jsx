@@ -55,6 +55,11 @@ export default function Dashboard() {
     navigate('/create-poster');
   };
 
+  const handleCreateAIPoster = () => {
+    navigate('/create-ai-poster');
+  };
+  
+
   const handleCreateVideo = () => {
     navigate('/create-video');
   };
@@ -259,6 +264,24 @@ export default function Dashboard() {
           </div>
 
           <div 
+  className="bg-white rounded-2xl p-6 shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
+  onClick={handleCreateAIPoster}
+>
+  <div className="flex items-center mb-4">
+    <div className="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center mr-4">
+      <i className="fas fa-robot text-2xl text-indigo-600"></i>
+    </div>
+    <h3 className="text-xl font-semibold text-gray-800">Create AI Poster</h3>
+  </div>
+  <p className="text-gray-600 mb-4">
+    Generate custom posters using AI by uploading an image, writing a title and description, and choosing your language.
+  </p>
+  <button className="bg-indigo-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-indigo-700 transition">
+    Start Creating
+  </button>
+</div>
+
+          <div 
             className="bg-white rounded-2xl p-6 shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
             onClick={handleCreateVideo}
           >
@@ -356,12 +379,7 @@ export default function Dashboard() {
     </div>
 
     <AvatarIVDashboard/>
-     {/* Footer */}
-      <footer className="bg-gray-900 text-white py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-6 text-center">
-          <p>© 2025 ArtisanAI. Empowering local artists with AI technology.</p>
-        </div>
-      </footer>
+
 </>
   );
 }

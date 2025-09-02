@@ -21,6 +21,7 @@ function App() {
         <Route path="/create-video" element={<CreateShortVideo />} />
         <Route path="/chat-ai" element={<Chatbot />} />
 
+
       </Routes>
     </BrowserRouter>
   )
