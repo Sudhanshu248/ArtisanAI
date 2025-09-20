@@ -21,7 +21,7 @@ export default function Dashboard() {
     <>
       <div className="flex h-screen bg-gray-50">
         {/* Sidebar */}
-        <div className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-white border-r border-gray-200 transition-all duration-300`}>
+        <div className={`${sidebarOpen ? 'w-64' : 'w-18'} bg-white border-r border-gray-200 transition-all duration-300`}>
           <div className="p-4 border-b border-gray-200">
             <div className="flex items-center justify-between">
               {sidebarOpen && (
@@ -36,7 +36,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <nav className="p-4 space-y-2">
+          <nav className="sm:p-2 md:p-4 space-y-2">
             <button
               onClick={() => {
                 setActiveTab('home');

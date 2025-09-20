@@ -4,10 +4,10 @@ import dotenv from 'dotenv';
 import User from '../models/user.models.js'
 
 dotenv.config();
+
 const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET) {
-    throw new Error("JWT_SECRET is not defined in environment variables");
-}
+if (!JWT_SECRET) throw new Error("JWT_SECRET is not defined in environment variables");
+
 
 // Handles user registration
 const signup = async (req, res) => {
@@ -15,15 +15,11 @@ const signup = async (req, res) => {
         const { username, email, password } = req.body;
 
         // Check if required fields are present
-        if (!username || !email || !password) {
-            return res.status(400).json({ message: "All fields are required" });
-        }
-
+        if (!username || !email || !password) return res.status(400).json({ message: "All fields are required" });
+        
         // Check if user already exists by email
         const user = await User.findOne({ email }).maxTimeMS(5000);
-        if (user) {
-            return res.status(400).json({ message: "User already exists" });
-        }
+        if (user) return res.status(400).json({ message: "User already exists" });
 
         // Hash the password for secure storage
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -34,8 +30,6 @@ const signup = async (req, res) => {
             email,
             password: hashedPassword
         });
-
-
 
         const token = jwt.sign({ id: newUser._id }, JWT_SECRET, { expiresIn: '7d' });  // Token will expire in 7 days //
 
@@ -62,7 +56,6 @@ const login = async (req, res) => {
 
         // Look up user by email
         const response = await User.findOne({ email });
-
         if (!response) {
             return res.status(401).send({
                 Message: "Invalid email or password"
@@ -72,13 +65,13 @@ const login = async (req, res) => {
         // Compare provided password with hashed password in DB
         const passwordmatch = await bcrypt.compare(password, response.password);
 
-
         if (passwordmatch) {
             const token = jwt.sign({ id: response._id }, JWT_SECRET, { expiresIn: '7d' });  // Token will expire in 7 days //
             response.token = token;
 
             await response.save();
             res.json({ token })
+
         } else {
             return res.status(401).send({
                 Message: "Incorrect Password"
@@ -103,17 +96,13 @@ const getUsername = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     const user = await User.findById(decoded.id); // Use decoded ID to find user
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
+    if (!user) return res.status(404).json({ error: "User not found" });
 
     res.json({ username: user.username });
-    
+
   } catch (e) {
     res.status(500).json({ message: `Something went wrong: ${e.message}` });
   }
 };
-
-
 
 export { signup, login, getUsername };

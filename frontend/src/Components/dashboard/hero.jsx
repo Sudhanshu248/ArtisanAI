@@ -13,8 +13,6 @@ export default function Hero() {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
             });
-
-            console.log(request.data);
             setUsername(request.data.username);
 
         } catch (err) {

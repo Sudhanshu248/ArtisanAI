@@ -18,8 +18,8 @@ cloudinary.config({
 export const createImage = async (req, res) => {
   try {
     const { title } = req.body;
-    const apiKey = process.env.STABILITY_API_KEY;
 
+    const apiKey = process.env.STABILITY_API_KEY;
     if (!apiKey) {
       return res
         .status(500)
@@ -51,7 +51,6 @@ export const createImage = async (req, res) => {
     formData.append("init_image", fs.createReadStream(resizedPath));
     formData.append("text_prompts[0][text]", title);
 
-    // Send to Stability API
     const response = await axios.post(
       `https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/image-to-image?strength=0.7`,
       formData,
@@ -69,12 +68,15 @@ export const createImage = async (req, res) => {
     if (response.status !== 200) {
       const errorText = Buffer.from(response.data).toString("utf-8");
       let parsedError;
+      
       try {
         parsedError = JSON.parse(errorText);
       } catch {
         parsedError = errorText;
       }
+
       console.error("Stability API error:", parsedError);
+      
       return res.status(response.status).json({
         success: false,
         message: "Image generation failed",
@@ -121,15 +123,14 @@ export const createImage = async (req, res) => {
   }
 };
 
-// const imageData = await Image.find();
 export const getImages = async (req, res) => {
-  
   try {
+
     const token = req.headers.authorization;
-    if (!token) return res.status(401).json({ message: "No token provided" });// if token is missing 
+    if (!token) return res.status(401).json({ message: "No token provided" }); 
 
     const user = await User.findOne({ token });
-    if (!user) return res.status(401).json({ message: "Unauthorized user" });// Token does not match any user in the database
+    if (!user) return res.status(401).json({ message: "Unauthorized user" });
 
     const imagesData = await Image.findOne({ userId: user._id });
 

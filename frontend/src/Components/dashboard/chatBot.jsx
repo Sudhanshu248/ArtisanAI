@@ -43,7 +43,7 @@ const ChatbotAI = () => {
       console.error(err);
       setMessages((prev) => [
         ...prev,
-        { role: "bot", content: "⚠️ Error: Unable to get response." },
+        { role: "bot", content: " Error: Unable to get response." },
       ]);
 
     } finally {

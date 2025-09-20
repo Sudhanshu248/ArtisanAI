@@ -43,7 +43,6 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Health check route
 app.get("/", (req, res) => {
     res.send("Backend Server is properly working on 8080.");
 });

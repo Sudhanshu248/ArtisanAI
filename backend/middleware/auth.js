@@ -5,7 +5,6 @@ import User from "../models/user.models.js";
 export const auth = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({ message: "No token provided" });
     }
@@ -15,12 +14,11 @@ export const auth = async (req, res, next) => {
 
     // Find user in DB
     const user = await User.findById(decoded.id).select("-password");
-    if (!user) {
-      return res.status(401).json({ message: "User not found" });
-    }
+    if (!user) return res.status(401).json({ message: "User not found" });
 
     req.user = user; // ✅ attach full user object
     next();
+
   } catch (err) {
     console.error("JWT verification failed:", err.message);
     return res.status(401).json({ message: "Unauthorized" });

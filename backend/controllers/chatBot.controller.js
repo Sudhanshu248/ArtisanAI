@@ -1,10 +1,7 @@
 export const chatbotResponse = (req, res) => {
   try {
-    const { message } = req.body;
-
-    if (!message) {
-      return res.status(400).json({ reply: "⚠️ Please enter a message." });
-    }
+    const { message } = req.body
+    if (!message) return res.status(400).json({ reply: "⚠️ Please enter a message." });
 
     const msg = message.toLowerCase(); // Normalize
 

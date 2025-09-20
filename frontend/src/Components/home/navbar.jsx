@@ -14,11 +14,6 @@ export default function Navbar(){
                                 Start Creating
                             </a>
                         </div>
-                        <div className="md:hidden">
-                            <button className="text-gray-700" >
-                                <i className="fas fa-bars text-xl"></i>
-                            </button>
-                        </div>
                     </div>
                 </div>
             </nav>

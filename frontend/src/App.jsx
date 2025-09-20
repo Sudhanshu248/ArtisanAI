@@ -5,6 +5,7 @@ import Signup from './Components/SignUp/index.jsx';
 import Dashboard from './Components/dashboard/index.jsx'; 
 import Home from './Components/home/index.jsx';
 import CreateImage from './Components/Image/index.jsx';
+import NotFound from './Components/notFound.jsx';
 // import CreateShortVideo from './Components/Video/index.jsx';
 // import CreateAIPoster from './Components/Poster/index.jsx';
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/enhance-image" element={<CreateImage />} />
+        <Route path='*' element={<NotFound />} />
 
         {/* <Route path="/create-ai-poster" element={<CreateAIPoster />} /> */}        
         {/* <Route path="/create-ai-video" element={<CreateShortVideo />} /> */}

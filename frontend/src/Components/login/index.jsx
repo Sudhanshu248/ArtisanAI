@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { BASE_URL } from '../../../axiosConfig';
 
 export default function Login() {
+
   const navigate = useNavigate();
 
   // Navigate back to the main website or landing page
   const handleBack = () => {
-    window.location.href = "http://localhost:5173"; // Redirect to main webpage
+    navigate("/") // Redirect to main webpage
   };
 
   // Navigate to the signup page
@@ -36,7 +38,7 @@ export default function Login() {
       setSuccess("");
       setError("");
 
-      const response = await axios.post(`http://localhost:8080/login`, {
+      const response = await axios.post(`${BASE_URL}/login`, {
         email: email.trim(),
         password: password.trim(),
       }, {

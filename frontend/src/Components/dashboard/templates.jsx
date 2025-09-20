@@ -1,14 +1,15 @@
 import { useState } from 'react';
 
 export default function Template() {
-  const [selectedImage, setSelectedImage] = useState(null); // State to store clicked image
+
+  const [selectedImage, setSelectedImage] = useState(null); 
 
   const handleImageClick = (image) => {
-    setSelectedImage(image); // Set the clicked image
+    setSelectedImage(image); 
   };
 
   const handleCloseModal = () => {
-    setSelectedImage(null); // Close the modal
+    setSelectedImage(null); 
   };
 
   return (
