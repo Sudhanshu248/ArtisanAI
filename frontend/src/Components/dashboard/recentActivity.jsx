@@ -13,14 +13,18 @@ export default function RecentActivity() {
         headers: { Authorization: localStorage.getItem("token") },
       });
 
+      console.log("API response:", response.data);
+
+      // Make sure it's an array
       if (response.data) {
-        setImages(response.data);
+        setImages(Array.isArray(response.data) ? response.data : [response.data]);
       }
 
     } catch (err) {
       console.error(err);
     }
   };
+
 
   // Download image
   const handleDownload = async (img) => {
@@ -69,9 +73,9 @@ export default function RecentActivity() {
       </div>
 
       {images.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="flex gap-6 overflow-x-auto py-4">
           {images.map((img, index) => (
-            <div key={index} className="bg-white rounded-xl p-4 shadow-sm border border-gray-200 hover:shadow-md transition-shadow group">
+            <div key={index} className="flex-shrink-0 bg-white rounded-xl p-4 shadow-sm border border-gray-200 hover:shadow-md transition-shadow group w-64">
               <div className="relative mb-4">
                 <img 
                   src={img.generatedImageUrl}
@@ -102,6 +106,7 @@ export default function RecentActivity() {
             </div>
           ))}
         </div>
+
       ) : (
         <div className="text-center py-12">
           <i className="fas fa-folder-open text-4xl text-gray-300 mb-4"></i>

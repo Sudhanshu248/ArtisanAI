@@ -76,7 +76,7 @@ export const createImage = async (req, res) => {
       }
 
       console.error("Stability API error:", parsedError);
-      
+
       return res.status(response.status).json({
         success: false,
         message: "Image generation failed",
@@ -132,7 +132,7 @@ export const getImages = async (req, res) => {
     const user = await User.findOne({ token });
     if (!user) return res.status(401).json({ message: "Unauthorized user" });
 
-    const imagesData = await Image.findOne({ userId: user._id });
+    const imagesData = await Image.find({ userId: user._id });
 
     // No Goals Found From Database for this user
     if (!imagesData) {
