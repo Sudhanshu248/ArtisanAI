@@ -32,49 +32,41 @@ ArtisanAI is a web application that lets artisans and creators convert their han
 | Authentication | JWT                           |
 | Other tools    | (e.g. cloud storage, video encoding, etc.) |
 
----
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (version X.X.X)  
-- npm or yarn  
-- (If used) a cloud API key for AI image/video service  
-- (If used) storage service credentials (e.g. AWS S3, Google Cloud Storage)  
+---  
 
 ## Project Structure
+   ```bash
 
-backend/
-├── controllers/
-├── models/
-├── routes/
-├── middlewares/
-├── utils/
-├── server.js
-└── package.json
+ArtisanAI/
 
-
-├── ArtisanAI/
-│   ├── backend/
-│   │   ├── controllers/      # Express route controllers for API
-│   │   ├── models/           # Mongoose models (User, Images, etc.)
-│   │   ├── routes/           # Express routes
-│   │   ├── middlewares/      # Auth & other middleware
-│   │   ├── utils/            # Utility functions
-│   │   ├── server.js         # Entry point for backend
-│   │   └── package.json
-│   │
-│   ├── frontend/
-│   │   ├── src/
-│   │   │   ├── components/   # Reusable UI components (Navbar, Footer, etc.)
-│   │   │   ├── pages/        # Main pages (Dashboard, Login, etc.)
-│   │   │   ├── context/      # Context API for state management
-│   │   │   ├── services/     # API calls using Axios
-│   │   │   ├── App.js
-│   │   │   └── index.js
-│   │   └── package.json
-│   │
-│   ├── .env.example          # Example environment variables
-│   ├── README.md
-│   └── package.json          # Root package for monorepo setup
+├── backend/
+│ ├── controllers/                 # Express route controllers for API
+│ ├── models/                      # Mongoose models (User, Images, etc.)
+│ ├── routes/                      # Express routes
+│ ├── middlewares/                 # Auth & other middleware
+│ ├── uploads/                     # Store Images
+│ ├── server.js                    # Main backend file
+│ └── package.json
+│
+├── frontend/
+│ ├── public/                      #Store static images
+│ ├── src/
+│ │ ├── components/                # Reusable UI components (Navbar, Footer, etc.)
+│ │ │ ├──dashboard                 # main dashboard page
+│ │ │ ├── home                     #  landing page
+│ │ │ ├── Image                    # Context API for state management
+│ │ │ ├── Login                    # login Component
+│ │ │ ├── Poster                   # poster making component
+│ │ │ ├── Sign up                  # sign-up component
+│ │ │ └── Video                    # video making component
+│ │ ├── app.css
+│ │ ├── app.jsx
+│ │ ├── main.jsx
+│ │ └── index.css
+│ ├── axiosConfig.js               # Define diff URLs
+│ ├── index.html
+│ └── package.json
+│
+└── README.md
+   ```
+##
