@@ -108,7 +108,7 @@ export default function CreateImage() {
             <span>{error}</span>
           </div>
         )}
-        {success && (
+        {success && !imageData && (
           <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-md font-semibold flex items-center space-x-2">
             <i className="fas fa-check-circle"></i>
             <span>{success}</span>
@@ -116,7 +116,9 @@ export default function CreateImage() {
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="flex space-x-10">
+        {/* If no image yet → show the form */}
+        {!imageData ? (
+          <form onSubmit={handleSubmit} className="flex space-x-10">
           {/* Left side: Image Upload + Preview */}
           <div className="flex flex-col items-center">
             <p className="block text-gray-700 font-semibold mb-2">Upload Image</p>
@@ -187,11 +189,8 @@ export default function CreateImage() {
             </button>
           </div>
         </form>
-
-        {/* Image Preview After Creation */}
-        {imageData && (
+        ) : (
           <div className="mt-8 bg-gray-50 p-6 rounded-xl shadow-lg text-center">
-
             {imageData.generatedImageUrl && (
               <div className="mt-6">
                 <h3 className="text-lg font-semibold text-gray-700">AI Enhanced Image</h3>
@@ -209,6 +208,16 @@ export default function CreateImage() {
                 </a>
               </div>
             )}
+            {/* Button to go back and create another image */}
+            <button
+              onClick={() => {
+                setImageData(null);
+                setSuccess("");
+              }}
+              className="mt-6 cursor-pointer inline-block bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700"
+            >
+              Create Another Image
+            </button>
           </div>
         )}
       </div>

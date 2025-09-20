@@ -1,24 +1,28 @@
 import jwt from "jsonwebtoken";
+import User from "../models/user.models.js";
 
-export const auth = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-
-  // No token? -> just continue (guest mode)
-  if (!authHeader) {
-    return next();
-  }
-
-  const token = authHeader.split(" ")[1];
-  if (!token) {
-    return next();
-  }
-
+// Middleware: authenticate user if token is valid
+export const auth = async (req, res, next) => {
   try {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+
+    const token = authHeader.split(" ")[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // attach user payload (id, email, etc.)
+
+    // Find user in DB
+    const user = await User.findById(decoded.id).select("-password");
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    req.user = user; // ✅ attach full user object
+    next();
   } catch (err) {
     console.error("JWT verification failed:", err.message);
+    return res.status(401).json({ message: "Unauthorized" });
   }
-
-  next();
 };

@@ -2,7 +2,7 @@ import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './Components/login/index.jsx';
 import Signup from './Components/SignUp/index.jsx';
-import Dashboard from './Components/dashboard/index.jsx'; // assuming you have this
+import Dashboard from './Components/dashboard/index.jsx'; 
 import Home from './Components/home/index.jsx';
 import CreateImage from './Components/Image/index.jsx';
 // import CreateShortVideo from './Components/Video/index.jsx';

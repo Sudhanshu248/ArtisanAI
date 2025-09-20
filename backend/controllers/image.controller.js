@@ -5,6 +5,15 @@ import FormData from "form-data";
 import sharp from "sharp";
 import Image from "../models/image.models.js";
 import User from "../models/user.models.js";
+import { v2 as cloudinary } from "cloudinary";
+import path from "path";
+
+// --- Configure Cloudinary ---
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
 
 export const createImage = async (req, res) => {
   try {
@@ -22,6 +31,14 @@ export const createImage = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Title and image are required" });
     }
+
+    const token = req.headers.authorization?.split(" ")[1]; // "Bearer <token>"
+    if (!token) throw new Error("No token provided");
+  
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // decode token
+
+    const user = await User.findById(decoded.id);
+    if (!user) throw new Error("Unauthorized user");
 
     // Resize uploaded image
     const resizedPath = `${req.file.path}-resized.png`;
@@ -64,6 +81,17 @@ export const createImage = async (req, res) => {
         error: parsedError,
       });
     }
+    // Save the generated image to Cloudinary
+    const tempFilePath = `temp-generated-${Date.now()}.png`;
+    fs.writeFileSync(tempFilePath, response.data);
+
+    const uploadResult = await cloudinary.uploader.upload(tempFilePath, {
+      folder: "ai-generated",
+      use_filename: true,
+      unique_filename: true,
+    });
+
+    fs.unlinkSync(tempFilePath); // delete temp file
 
     // Convert result to Base64
     const base64Image = Buffer.from(response.data).toString("base64");
@@ -71,9 +99,9 @@ export const createImage = async (req, res) => {
 
     // Save in DB
     const newImage = new Image({
-      userId: req.user?._id || null,
+      userId: user._id,
       inputImageUrl: req.file.path,
-      generatedImageUrl,
+      generatedImageUrl: uploadResult.secure_url,
       title,
     });
 
@@ -84,29 +112,16 @@ export const createImage = async (req, res) => {
       image: newImage,
     });
   } catch (error) {
-    let errMsg = error.message;
-
-    if (error.response?.data) {
-      try {
-        const text = Buffer.from(error.response.data).toString("utf8");
-        errMsg = JSON.parse(text);
-      } catch (e) {
-        errMsg = error.response.data.toString();
-      }
-    }
-
-    console.error("Image generation failed:", errMsg);
-
+    console.error("Image generation failed:", error.message);
     return res.status(500).json({
       success: false,
       message: "Image generation failed",
-      error: errMsg,
+      error: error.message,
     });
   }
 };
+
 // const imageData = await Image.find();
-
-
 export const getImages = async (req, res) => {
   
   try {
@@ -116,14 +131,14 @@ export const getImages = async (req, res) => {
     const user = await User.findOne({ token });
     if (!user) return res.status(401).json({ message: "Unauthorized user" });// Token does not match any user in the database
 
-    const goalsData = await Image.findOne({ userId: user._id });
+    const imagesData = await Image.findOne({ userId: user._id });
 
     // No Goals Found From Database for this user
-    if (!goalsData) {
+    if (!imagesData) {
       return res.status(404).json({ message: "No goals found for this user" });
     }
 
-    return res.status(200).json(goalsData);
+    return res.status(200).json(imagesData);
 
   } catch (error) {
     return res.status(500).json({ message: error.message });
