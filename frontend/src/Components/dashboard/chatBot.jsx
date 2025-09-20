@@ -1,154 +1,146 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import "./chatBot.css";
+import { BASE_URL } from "../../../axiosConfig";
 
 const ChatbotAI = () => {
-  const [isOpen, setIsOpen] = useState(false);
 
-  const toggleChat = () => {
-    setIsOpen(!isOpen);
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const messagesEndRef = useRef(null);
+
+  const toggleChat = () => setIsOpen(!isOpen);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const sendMessage = async () => {
+    if (!input.trim()) return;
+
+    // Add user message
+    const newMessage = { role: "user", content: input };
+    setMessages((prev) => [...prev, newMessage]);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const res = await axios.post(`${BASE_URL}/chat`, 
+        { message: input }
+      );
+
+      const botReply = { role: "bot", content: res.data.reply };
+      setMessages((prev) => [...prev, botReply]);
+
+    } catch (err) {
+      console.error(err);
+      setMessages((prev) => [
+        ...prev,
+        { role: "bot", content: "⚠️ Error: Unable to get response." },
+      ]);
+
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <>
-      {/* Chatbot Icon Button */}
-      {/* <button
+      {/* Floating Button */}
+      <button
         onClick={toggleChat}
-        style={{
-          position: 'fixed',
-          bottom: '20px',
-          right: '20px',
-          width: '60px',
-          height: '60px',
-          borderRadius: '50%',
-          backgroundColor: '#4A90E2', // Customize color
-          border: 'none',
-          cursor: 'pointer',
-          boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000,
-        }}
+        className="chatBotSection"
         aria-label="Toggle Chatbot"
         title="Chat with ArtisanAI"
       >
-        {/* You can replace this SVG with your own AI icon */}
-        {/* <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="white"
-          viewBox="0 0 24 24"
-          width="28px"
-          height="28px"
-        >
-          <path d="M12 2C6.48 2 2 5.58 2 10c0 2.5 1.5 4.7 4 6v4l4-2 4 2v-4c2.5-1.3 4-3.5 4-6 0-4.42-4.48-8-10-8z" />
-        </svg>
-      </button> */} 
-<button
-  onClick={toggleChat}
-  style={{
-    position: 'fixed',
-    bottom: '20px',
-    right: '20px',
-    width: '60px',
-    height: '60px',
-    borderRadius: '50%',
-    backgroundColor: '#4A90E2',
-    border: 'none',
-    cursor: 'pointer',
-    boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 1000,
-  }}
-  aria-label="Toggle Chatbot"
-  title="Chat with ArtisanAI"
->
-  {/* New robot icon SVG */}
-<img
-  src="./public/image/chatBot.png"
-  alt="Chatbot Icon"
-  style={{ width: '70px', height: '70px' }}
-/>
-</button>
+        <img
+          src="/image/chatBot.png"
+          alt="Chatbot Icon"
+          style={{ width: "70px", height: "70px" }}
+        />
+      </button>
+
       {/* Chat Window */}
       {isOpen && (
         <div
-          style={{
-            position: 'fixed',
-            bottom: '90px',
-            right: '20px',
-            width: '320px',
-            height: '400px',
-            backgroundColor: 'white',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
-            borderRadius: '12px',
-            display: 'flex',
-            flexDirection: 'column',
-            zIndex: 1000,
-          }}
+          className="chatBotContainer"
         >
+          {/* Header */}
           <div
-            style={{
-              padding: '12px',
-              backgroundColor: '#4A90E2',
-              color: 'white',
-              fontWeight: 'bold',
-              borderTopLeftRadius: '12px',
-              borderTopRightRadius: '12px',
-            }}
+            className="header"
           >
             ArtisanAI Chat
             <button
               onClick={toggleChat}
-              style={{
-                float: 'right',
-                background: 'transparent',
-                border: 'none',
-                color: 'white',
-                fontSize: '18px',
-                cursor: 'pointer',
-              }}
+              className="close-btn"
               aria-label="Close Chatbot"
             >
               &times;
             </button>
           </div>
+
+          {/* Messages Area */}
           <div
-            style={{
-              flex: 1,
-              padding: '12px',
-              overflowY: 'auto',
-              fontSize: '14px',
-              color: '#333',
-            }}
+            className="messageArea"
           >
-            {/* Chat content goes here */}
-            <p>Hi! How can I assist you today?</p>
+            {messages.length === 0 ? (
+              <p>Hi! How can I assist you today?</p>
+            ) : (
+              messages.map((msg, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    marginBottom: "8px",
+                    textAlign: msg.role === "user" ? "right" : "left",
+                  }}
+                >
+                  <span
+                    style={{
+                      display: "inline-block",
+                      padding: "6px 10px",
+                      borderRadius: "8px",
+                      backgroundColor: msg.role === "user" ? "#4A90E2" : "#f1f1f1",
+                      color: msg.role === "user" ? "white" : "black",
+                    }}
+                  >
+                    {msg.content}
+                  </span>
+                </div>
+              ))
+            )}
+            {loading && <p>Bot is typing...</p>}
+
+            {/* Auto-scroll anchor */}
+            <div ref={messagesEndRef} />
           </div>
+
+          {/* Input Box */}
           <div
-            style={{
-              padding: '12px',
-              borderTop: '1px solid #ddd',
-            }}
+            className="inputBox"
           >
             <input
               type="text"
-              placeholder="Type your message..."
-              style={{
-                width: '100%',
-                padding: '8px',
-                borderRadius: '6px',
-                border: '1px solid #ccc',
-                fontSize: '14px',
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  // Handle sending message
-                  alert(`You typed: ${e.target.value}`);
-                  e.target.value = '';
-                }
-              }}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type a message..."
+              className="inputField"
+              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+              disabled={loading}
             />
+            <button
+              onClick={sendMessage}
+              className="btn"
+              disabled={loading}
+            >
+              {loading ? "..." : "Send"}
+            </button>
           </div>
         </div>
       )}

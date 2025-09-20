@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import userRoutes from "./routes/user.routes.js";
 import chatbotRoutes from "./routes/chatBot.routes.js"
-import posterRoutes from "./routes/poster.routes.js";
+import imageRoutes from "./routes/image.routes.js";
 
 const app = express();
 dotenv.config(); // Load environment variables
@@ -34,7 +34,7 @@ const connectDB = async () => {
 
 app.use('/', userRoutes);
 app.use("/", chatbotRoutes);
-app.use("/api", posterRoutes);
+app.use("/api", imageRoutes); 
 
 // Global error handler middleware
 app.use((err, req, res, next) => {

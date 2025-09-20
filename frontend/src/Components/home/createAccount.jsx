@@ -8,9 +8,9 @@ export default function CreateAccount(){
                         Join thousands of local artists who are transforming their traditional crafts into successful online businesses.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button className="create-btn text-white px-8 py-4 rounded-full font-semibold text-lg">
+                        <a className="create-btn text-white px-8 py-4 rounded-full font-semibold text-lg" href="/signup">
                             Create Free Account
-                        </button>
+                        </a>
                     </div>
                     <p className="text-purple-100 mt-6">No design skills needed • Free templates • Direct platform uploads</p>
                 </div>

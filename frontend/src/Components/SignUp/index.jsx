@@ -68,7 +68,7 @@ export default function Signup() {
       {/* Back Button */}
       <button
         onClick={handleBack}
-        className="self-start mb-8 flex items-center space-x-2 text-white bg-purple-900 hover:bg-purple-800 px-4 py-2 rounded-full font-semibold transition-transform transform hover:scale-105"
+        className="self-start mb-8 cursor-pointer flex items-center space-x-2 text-white bg-purple-900 hover:bg-purple-800 px-4 py-2 rounded-full font-semibold transition-transform transform hover:scale-105"
       >
         <i className="fas fa-arrow-left"></i>
         <span>Back</span>
@@ -76,7 +76,7 @@ export default function Signup() {
 
       {/* Signup Card */}
       <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-10">
-        <h2 className="text-3xl font-extrabold text-purple-700 mb-8 text-center">Create Your Account</h2>
+        <h2 className="text-3xl font-extrabold text-purple-700 mb-8 text-center">Sign up</h2>
 
         {/* Success Message */}
         {success && (
@@ -155,7 +155,7 @@ export default function Signup() {
         <button
           onClick={handleSignUp}
           disabled={loading}
-          className={`w-full py-3 rounded-full font-semibold text-white transition-transform transform ${
+          className={`w-full py-3 rounded-full cursor-pointer font-semibold text-white transition-transform transform ${
             loading ? 'bg-purple-400 cursor-not-allowed' : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:scale-105'
           }`}
         >

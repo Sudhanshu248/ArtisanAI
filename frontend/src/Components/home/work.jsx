@@ -4,13 +4,13 @@ export default function Work(){
             <section className="py-20 bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
-                        <h2 className="text-4xl font-bold text-gray-800 mb-4">Create & Sell in 3 Simple Steps</h2>
+                        <h2 className="text-4xl font-bold text-gray-800 mb-4">Create & Sell in 4 Simple Steps</h2>
                         <p className="text-xl text-gray-600">
                             From product idea to marketplace-ready content in minutes
                         </p>
                     </div>
                     
-                    <div className="grid md:grid-cols-3 gap-8 mb-16">
+                    <div className="grid md:grid-cols-4 gap-8 mb-16">
                         <div className="text-center">
                             <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
                                 <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white text-xl">
@@ -21,12 +21,21 @@ export default function Work(){
                             <p className="text-gray-600">Upload product images and tell us about your creation</p>
                         </div>
                         <div className="text-center">
+                            <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <div className="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center text-white text-xl">
+                                    <i className="fas fa-image"></i>
+                                </div>
+                            </div>
+                            <h3 className="text-xl font-semibold text-gray-800 mb-3">2. AI Image Enhancer</h3>
+                            <p className="text-gray-600">Enhance your product photos with AI-powered clarity and detail</p>
+                        </div>
+                        <div className="text-center">
                             <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                                 <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white text-xl">
                                     <i className="fas fa-magic"></i>
                                 </div>
                             </div>
-                            <h3 className="text-xl font-semibold text-gray-800 mb-3">2. AI Creates Content</h3>
+                            <h3 className="text-xl font-semibold text-gray-800 mb-3">3. AI Creates Content</h3>
                             <p className="text-gray-600">Our AI generates professional posters and storytelling videos</p>
                         </div>
                         <div className="text-center">
@@ -35,12 +44,53 @@ export default function Work(){
                                     <i className="fas fa-share-alt"></i>
                                 </div>
                             </div>
-                            <h3 className="text-xl font-semibold text-gray-800 mb-3">3. Publish Everywhere</h3>
+                            <h3 className="text-xl font-semibold text-gray-800 mb-3">4. Publish Everywhere</h3>
                             <p className="text-gray-600">Upload directly to marketplaces and social media</p>
                         </div>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-12">
+                    <div className="grid md:grid-cols-3 gap-12">
+                        <div className="creation-flow">
+                            <div className="flex items-center mb-6">
+                                <div className="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center text-white mr-4">
+                                    <i className="fas fa-search-plus"></i>
+                                </div>
+                                <h3 className="text-2xl font-semibold text-gray-800">AI Image Enhancer</h3>
+                            </div>
+                            <div className="space-y-4">
+                                <div className="flex items-start">
+                                    <div className="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 mr-3 mt-1">
+                                        <i className="fas fa-upload"></i>
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold">Input Product Images</p>
+                                        <p className="text-gray-600 text-sm">Upload your product photos for enhancement</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-start">
+                                    <div className="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 mr-3 mt-1">
+                                        <i className="fas fa-brush"></i>
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold">AI Enhances Image Quality</p>
+                                        <p className="text-gray-600 text-sm">Improves clarity, sharpness, and color vibrancy</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-start">
+                                    <div className="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 mr-3 mt-1">
+                                        <i className="fas fa-check-circle"></i>
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold">Ready for Marketing</p>
+                                        <p className="text-gray-600 text-sm">Optimized images perfect for posters and listings</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <button className="create-btn text-white px-6 py-3 rounded-lg font-semibold mt-6 w-full bg-indigo-600 hover:bg-indigo-700">
+                                Enhance Product Images
+                            </button>
+                        </div>
+                        
                         <div className="creation-flow">
                             <div className="flex items-center mb-6">
                                 <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white mr-4">

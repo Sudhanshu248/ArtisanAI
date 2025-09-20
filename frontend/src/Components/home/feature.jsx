@@ -27,21 +27,6 @@ export default function Features(){
                         </div>
 
                         <div className="feature-card bg-white p-8 rounded-2xl transition-all duration-300">
-                            <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-6">
-                                <i className="fas fa-share-alt text-3xl text-blue-600"></i>
-                            </div>
-                            <h3 className="text-2xl font-semibold text-gray-800 mb-4">Social Media Integration</h3>
-                            <p className="text-gray-600 mb-6">
-                                One-click sharing to Instagram, Facebook, and other platforms with optimized formats for each network.
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                                <span className="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Instagram</span>
-                                <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">Facebook</span>
-                                <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm">Pinterest</span>
-                            </div>
-                        </div>
-
-                        <div className="feature-card bg-white p-8 rounded-2xl transition-all duration-300">
                             <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mb-6">
                                 <i className="fas fa-history text-3xl text-green-600"></i>
                             </div>

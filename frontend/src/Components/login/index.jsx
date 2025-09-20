@@ -72,7 +72,7 @@ export default function Login() {
       {/* Back Button */}
       <button
         onClick={handleBack}
-        className="self-start mb-8 flex items-center space-x-2 text-white bg-purple-900 hover:bg-purple-800 px-4 py-2 rounded-full font-semibold transition-transform transform hover:scale-105"
+        className="self-start mb-8 cursor-pointer flex items-center space-x-2 text-white bg-purple-900 hover:bg-purple-800 px-4 py-2 rounded-full font-semibold transition-transform transform hover:scale-105"
       >
         <i className="fas fa-arrow-left"></i>
         <span>Back</span>
@@ -80,7 +80,7 @@ export default function Login() {
 
       {/* Login Card */}
       <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-10">
-        <h2 className="text-3xl font-extrabold text-purple-700 mb-8 text-center">Login to ArtisanAI</h2>
+        <h2 className="text-3xl font-extrabold text-purple-700 mb-8 text-center">Login</h2>
 
         {/* Success Message */}
         {success && (
@@ -140,7 +140,7 @@ export default function Login() {
         <button
           onClick={handleLogin}
           disabled={loading}
-          className={`w-full py-3 rounded-full font-semibold text-white transition-transform transform ${
+          className={`w-full py-3 cursor-pointer rounded-full font-semibold text-white transition-transform transform ${
             loading ? 'bg-purple-400 cursor-not-allowed' : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:scale-105'
           }`}
         >
