@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Enable CORS for frontend apps
 app.use(cors({
-    origin: ['https://artisan-ai-eight.vercel.app/'],
+    origin: ['https://artisan-ai-eight.vercel.app'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
