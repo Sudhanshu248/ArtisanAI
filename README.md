@@ -3,6 +3,7 @@
 Transform your handmade products into market-ready masterpieces with AI-powered posters and storytelling videos.
 
 **Live Demo - [ArtisanAI](https://artisan-ai-eight.vercel.app/)**
+
 ---
 
 ## 📖 About
