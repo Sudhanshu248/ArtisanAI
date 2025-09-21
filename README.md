@@ -84,7 +84,7 @@ Artisan AI is a web application that enables artisans and creators to convert th
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Sudhanshu248/Connectify.git
+   git clone https://github.com/Sudhanshu248/ArtisanAI.git
    ```
 
 2. Navigate to the project directory:
